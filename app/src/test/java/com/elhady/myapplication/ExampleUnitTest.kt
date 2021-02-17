@@ -1,4 +1,4 @@
-package com.elhady.motivation
+package com.elhady.myapplication
 
 import org.junit.Test
 
