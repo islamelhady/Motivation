@@ -1,4 +1,4 @@
-package com.elhady.myapplication
+package com.elhady.motivation
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
