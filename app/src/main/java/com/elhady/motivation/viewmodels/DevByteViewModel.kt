@@ -12,7 +12,12 @@ import java.io.IOException
  */
 class DevByteViewModel(application: Application) : AndroidViewModel(application) {
 
+
+    /**
+     * The data source this ViewModel will fetch results from.
+     */
     private val videosRepository = VideosRepository(getDatabase(application))
+
     /**
      * A playlist of videos displayed on the screen.
      */
@@ -23,6 +28,7 @@ class DevByteViewModel(application: Application) : AndroidViewModel(application)
      * way to set this value to observers.
      */
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
+
     /**
      * Event triggered for network error. Views should use this to get access
      * to the data.
@@ -54,17 +60,38 @@ class DevByteViewModel(application: Application) : AndroidViewModel(application)
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
      */
-    private fun refreshDataFromRepository(){
+    private fun refreshDataFromRepository() {
         viewModelScope.launch {
             try {
                 videosRepository.refreshVideos()
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
-            } catch (networkError: IOException){
+
+            } catch (networkError: IOException) {
                 // Show a Toast error message and hide the progress bar.
                 if(playlist.value.isNullOrEmpty())
                     _eventNetworkError.value = true
             }
+        }
+    }
+
+    /**
+     * Resets the network error flag.
+     */
+    fun onNetworkErrorShown() {
+        _isNetworkErrorShown.value = true
+    }
+
+    /**
+     * Factory for constructing DevByteViewModel with parameter
+     */
+    class Factory(val app: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(DevByteViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return DevByteViewModel(app) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
 }

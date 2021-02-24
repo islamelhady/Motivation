@@ -40,7 +40,7 @@ class DevByteFragment : Fragment() {
                 .get(DevByteViewModel::class.java)
     }
 
-    
+
     private var viewModelAdapter: DevByteAdapter? = null
 
 
@@ -122,11 +122,7 @@ class DevByteFragment : Fragment() {
  *
  */
 class VideoClick(val block: (DevByteVideo) -> Unit) {
-    /**
-     * Called when a video is clicked
-     *
-     * @param video the video that was clicked
-     */
+
     fun onClick(video: DevByteVideo) = block(video)
 }
 
@@ -163,11 +159,7 @@ class DevByteAdapter(val callback: VideoClick) : RecyclerView.Adapter<DevByteVie
 
     override fun getItemCount() = videos.size
 
-    /**
-     * Called by RecyclerView to display the data at the specified position. This method should
-     * update the contents of the {@link ViewHolder#itemView} to reflect the item at the given
-     * position.
-     */
+
     override fun onBindViewHolder(holder: DevByteViewHolder, position: Int) {
         holder.viewDataBinding.also {
             it.video = videos[position]
